@@ -1,0 +1,349 @@
+{
+    "id": "60ead54a8717c46f",
+    "slug": null,
+    "trashed": false,
+    "description": "",
+    "likes": 0,
+    "publish_level": "live",
+    "forks": 0,
+    "fork_of": null,
+    "has_importers": false,
+    "update_time": "2023-01-12T23:50:58.635Z",
+    "first_public_version": 2,
+    "paused_version": null,
+    "publish_time": "2023-01-06T19:36:01.962Z",
+    "publish_version": 258,
+    "latest_version": 258,
+    "thumbnail": "1d5af52e7df7136e73a3c97b3efe8bab887f60efcf04d708cece428a277a2297",
+    "default_thumbnail": "1d5af52e7df7136e73a3c97b3efe8bab887f60efcf04d708cece428a277a2297",
+    "roles": [],
+    "sharing": null,
+    "tags": [],
+    "edits": [
+        {
+            "node_id": 84,
+            "value": "class CM {\n  constructor() {\n    this.thunks = [];\n  }\n\n  clear() {\n    this.thunks = [];\n  }\n\n  render(ps) {\n    __clearCanvas(ps);\n    this.thunks.forEach((thunk) => thunk(ps));\n    return this;\n  }\n  circle(x, y, r) {\n    let thisCall = `.circle(${x}, ${y}, ${r})`;\n    let callParams = {\n      op: \"circle\",\n      x,\n      y,\n      r\n    };\n    let thunk = (ps) => {\n      let center = new ps.Point(x, y);\n      let radius = r;\n      let path = new ps.Path.Circle(center, radius);\n      // path.applyMatrix = false;\n      path.strokeColor = \"white\";\n      callParams.obj = path;\n      path.callParams = callParams;\n    };\n    this.thunks.push(thunk);\n    return this;\n  }\n\n  point(x, y) {}\n\n  /* Do I need these? */\n  select() {}\n\n  deselect() {}\n}"
+        },
+        {
+            "node_id": 157,
+            "value": "mutable updateMiniCadProgramIndicator = Date.now()"
+        },
+        {
+            "node_id": 166,
+            "value": "generateCodeFromCanvas(drawingPad.ps)"
+        }
+    ],
+    "owner": {
+        "id": "f17f6741d5f43f60",
+        "github_login": "jhaazpr",
+        "avatar_url": "https://avatars.observableusercontent.com/avatar/7b1fca3ec60e80d6d0d1652c3cc957a07a96f4415cca592cee189df0f44ab416",
+        "login": "jtranoleary",
+        "name": "Jasper Tran O'Leary",
+        "bio": "",
+        "home_url": "",
+        "type": "individual",
+        "tier": "pro",
+        "following_count": 1,
+        "followers_count": 0,
+        "following": false
+    },
+    "creator": {
+        "id": "f17f6741d5f43f60",
+        "github_login": "jhaazpr",
+        "avatar_url": "https://avatars.observableusercontent.com/avatar/7b1fca3ec60e80d6d0d1652c3cc957a07a96f4415cca592cee189df0f44ab416",
+        "login": "jtranoleary",
+        "name": "Jasper Tran O'Leary",
+        "bio": "",
+        "home_url": "",
+        "tier": "pro",
+        "following_count": 1,
+        "followers_count": 0,
+        "following": false
+    },
+    "authors": [
+        {
+            "id": "f17f6741d5f43f60",
+            "avatar_url": "https://avatars.observableusercontent.com/avatar/7b1fca3ec60e80d6d0d1652c3cc957a07a96f4415cca592cee189df0f44ab416",
+            "name": "Jasper Tran O'Leary",
+            "login": "jtranoleary",
+            "bio": "",
+            "home_url": "",
+            "github_login": "jhaazpr",
+            "tier": "pro",
+            "approved": true,
+            "description": "",
+            "following_count": 1,
+            "followers_count": 0,
+            "following": false
+        }
+    ],
+    "collections": [],
+    "files": [],
+    "comments": [],
+    "commenting_lock": null,
+    "suggestion_from": null,
+    "suggestions_to": [],
+    "version": 258,
+    "title": "Drawing API",
+    "license": null,
+    "copyright": "",
+    "nodes": [
+        {
+            "id": 0,
+            "name": "",
+            "value": "# Drawing API",
+            "pinned": false,
+            "mode": "md",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 7,
+            "name": null,
+            "value": "paper = require(\"paper\")",
+            "pinned": false,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 16,
+            "name": null,
+            "value": "drawingPad = makeDrawingPad()",
+            "pinned": false,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 188,
+            "name": null,
+            "value": "viewof cadOperations = Inputs.button(\n  [\n    [\"Circle\", (value) => value + 1],\n    [\"Rectangle\", (value) => value + 1],\n    [\"Polyline\", (value) => value - 1],\n    [\"BUnion\", (value) => 0],\n    [\"BIntersect\", (value) => 0],\n    [\"BSubtract\", (value) => 0]\n  ],\n  { value: 0, label: \"CAD Operations\" }\n)",
+            "pinned": false,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 212,
+            "name": null,
+            "value": "selected = {\n  toolUseIndicator;\n  return __getSelected(drawingPad.ps);\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 231,
+            "name": null,
+            "value": "{\n  let body = selected.map((item) => {\n    let op = item.callParams.op;\n    if (op === \"circle\") {\n      return htl.html`\n        <div>\n          <div>circle</div>\n          <input name=a type=range min=0 max=5 step=0.01 style=\"width:180px;\">\n          <div>x: ${item.position.x}</div>\n          <div>y: ${item.position.y}</div>\n          <div>r: ${item.bounds.width}</div>\n        </div>\n      `;\n    } else {\n      return `<div>unknown</div>`;\n    }\n  });\n  let wrapper = htl.html`<div></div>`;\n  body.forEach((el) => wrapper.append(el));\n  return wrapper;\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": "fd0da566-f955-4f15-8eb8-10e0f0e353ab",
+            "name": "",
+            "value": "<style>\n    /* TODO */\n</style>",
+            "mode": "html",
+            "outputs": []
+        },
+        {
+            "id": 96,
+            "name": null,
+            "value": "makeDrawingPad = () => {\n  clearDrawingIndicator;\n  let size = 20;\n  let canvas = DOM.canvas(720, 480);\n  canvas.style.backgroundColor = \"black\";\n  let ps = (() => {\n    let ps = new paper.PaperScope();\n    ps.setup(canvas);\n    // Flip Y axis so that it points \"up\" the page to match the Shopbot. This should only occur once to avoid constant flipping.\n    ps.view.scale(1, -1);\n    return ps;\n  })();\n  canvas.ps = ps;\n  ps.project.activeLayer.removeChildren();\n  initTool(ps);\n  invalidation.then(() => {\n    ps.remove();\n    canvas.remove();\n  });\n  return canvas;\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 104,
+            "name": null,
+            "value": "function initTool(ps) {\n  let tool = ps.tool || new paper.Tool();\n  tool.hitResult = null;\n  tool.hitOptions = {\n    stroke: true,\n    segments: true,\n    tolerance: 10\n  };\n  tool.onMouseDown = (toolEvent) => {\n    tool.hitResult = ps.project.hitTest(toolEvent.point, tool.hitOptions);\n    mutable test = tool.hitResult;\n    mutable toolUseIndicator = Date.now();\n    if (tool.hitResult) {\n      if (\n        tool.hitResult.type === \"stroke\" ||\n        tool.hitResult.type === \"segment\"\n      ) {\n        if (!toolEvent.event.shiftKey) {\n          __clearSelects(ps);\n        }\n        tool.hitResult.item.selected = true;\n      }\n    } else {\n      __clearSelects(ps);\n    }\n  };\n  tool.onMouseDrag = (toolEvent) => {\n    let maybeItem = tool.hitResult.item;\n    if (maybeItem) {\n      mutable toolUseIndicator = Date.now();\n      if (tool.hitResult.type === \"stroke\") {\n        __getSelected(ps).forEach(\n          (c) => (c.position = c.position.add(toolEvent.delta))\n        );\n      } else if (tool.hitResult.type === \"segment\") {\n        if (maybeItem && maybeItem.selected) {\n          if (maybeItem.callParams.op === \"circle\") {\n            maybeItem.scale(1 + 0.1 * toolEvent.delta.y);\n          }\n        }\n      }\n    }\n  };\n  tool.onMouseUp = (event) => {};\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 109,
+            "name": null,
+            "value": "mutable test = 0",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 102,
+            "name": null,
+            "value": "mutable clearDrawingIndicator = Date.now()",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 227,
+            "name": null,
+            "value": "mutable toolUseIndicator = Date.now()",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 163,
+            "name": null,
+            "value": "function generateCodeFromCanvas(ps) {\n  let cps = ps.project.activeLayer.children.map((c) => c.callParams);\n  let replace = (cp) => {\n    let obj = cp.obj;\n    if (cp.op === \"circle\") {\n      return `.circle(${obj.position.x}, ${obj.position.y}, ${obj.bounds.width})`;\n    } else {\n      return null;\n    }\n  };\n  return cps.map(replace);\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 166,
+            "name": null,
+            "value": "generateCodeFromCanvas(drawingPad.ps)",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 74,
+            "name": "",
+            "value": "Todo\n\n- select path, parameters pop up in separate view\n- changing view resynthesizes function render/execute thunk function call",
+            "pinned": false,
+            "mode": "md",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 76,
+            "name": null,
+            "value": "md`\n\\`\\`\\`javascript\npolyline([\n  line(x1, y1),\n  line(x2, y2)\n])\n\\`\\`\\`\n`",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 27,
+            "name": null,
+            "value": "drawingPad.ps",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 84,
+            "name": null,
+            "value": "class CM {\n  constructor() {\n    this.thunks = [];\n  }\n\n  clear() {\n    this.thunks = [];\n  }\n\n  render(ps) {\n    __clearCanvas(ps);\n    this.thunks.forEach((thunk) => thunk(ps));\n    return this;\n  }\n  circle(x, y, r) {\n    let thisCall = `.circle(${x}, ${y}, ${r})`;\n    let callParams = {\n      op: \"circle\",\n      x,\n      y,\n      r\n    };\n    let thunk = (ps) => {\n      let center = new ps.Point(x, y);\n      let radius = r;\n      let path = new ps.Path.Circle(center, radius);\n      // path.applyMatrix = false;\n      path.strokeColor = \"white\";\n      callParams.obj = path;\n      path.callParams = callParams;\n    };\n    this.thunks.push(thunk);\n    return this;\n  }\n\n  point(x, y) {}\n\n  /* Do I need these? */\n  select() {}\n\n  deselect() {}\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 29,
+            "name": null,
+            "value": "circle = (x, y, r) => {\n  return (ps) => {\n    let center = new ps.Point(x, y);\n    let radius = r;\n    let path = new ps.Path.Circle(center, radius);\n    path.strokeColor = \"white\"; \n  }\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 65,
+            "name": null,
+            "value": "renderCM = (drawingPad) => {}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 35,
+            "name": null,
+            "value": "mutable miniCadProgram = (ps) => {\n  // circle(50, 50, 20)(ps);\n  // circle(100, 100, 20)(ps);\n  // return ps.project.activeLayer.children;\n  updateMiniCadProgramIndicator;\n  return new CM()\n    .circle(50, 50, 20)\n    .circle(100, 100, 20)\n    .circle(200, 200, 40)\n    .render(ps);\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 69,
+            "name": null,
+            "value": "miniCadProgram(drawingPad.ps)",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 149,
+            "name": null,
+            "value": "Inputs.button(\"Sabotage\", {\n  reduce: () => {\n    mutable miniCadProgram = (x) => 42;\n  }\n})",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 157,
+            "name": null,
+            "value": "mutable updateMiniCadProgramIndicator = Date.now()",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 40,
+            "name": null,
+            "value": "md`\n\\`\\`\\`haskell\ncircle :: int -> int -> int -> canvas -> canvas\ncircle x y r origCanvas = ...\n\nmain :: IO ()\nmain =\n  Canvas () >>= circle 50 50 20 >>= circle >>= render\n\nmain = do\n  c <- canvas\n  circle 50 50 20 c\n  circle 100 100 20 c\n  render c\n\n\\`\\`\\`\n`",
+            "pinned": false,
+            "mode": "js",
+            "data": {},
+            "outputs": []
+        },
+        {
+            "id": 134,
+            "name": null,
+            "value": "function __clearCanvas(ps) {\n  ps.project.activeLayer.removeChildren();\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 215,
+            "name": null,
+            "value": "function __getSelected(ps) {\n  return ps.project.activeLayer.children.filter(c => c.selected);\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        },
+        {
+            "id": 216,
+            "name": null,
+            "value": "function __clearSelects(ps) {\n  ps.project.activeLayer.children.forEach((c) => (c.selected = false));\n}",
+            "pinned": true,
+            "mode": "js",
+            "data": null,
+            "outputs": []
+        }
+    ],
+    "resolutions": [
+        {
+            "type": "notebook",
+            "specifier": "@machine-agency/space-clearing-toolpaths",
+            "value": "93ab7125bde8313f"
+        }
+    ]
+}
