@@ -136,7 +136,7 @@
         {
             "id": 231,
             "name": null,
-            "value": "{\n  let body = selected.map((item) => {\n    let op = item.callParams.op;\n    if (op === \"circle\") {\n      return htl.html`\n        <div>\n          <div>circle</div>\n          <input name=a type=range min=0 max=5 step=0.01 style=\"width:180px;\">\n          <div>x: ${item.position.x}</div>\n          <div>y: ${item.position.y}</div>\n          <div>r: ${item.bounds.width}</div>\n        </div>\n      `;\n    } else {\n      return `<div>unknown</div>`;\n    }\n  });\n  let wrapper = htl.html`<div></div>`;\n  body.forEach((el) => wrapper.append(el));\n  return wrapper;\n}",
+            "value": "{\n  let body = selected.map((item) => {\n    let op = item.callParams.op;\n    if (op === \"circle\") {\n      return htl.html`\n        <div style=\"border: 1px solid black; padding: 5px; width: auto;\">\n          <div>circle</div>\n          <input name=a type=range min=0 max=5 step=0.01 style=\"width:180px;\">\n          <div>x: ${item.position.x}</div>\n          <div>y: ${item.position.y}</div>\n          <div>r: ${item.bounds.width}</div>\n        </div>\n      `;\n    } else {\n      return `<div>unknown</div>`;\n    }\n  });\n  let wrapper = htl.html`<div></div>`;\n  body.forEach((el) => wrapper.append(el));\n  return wrapper;\n}",
             "pinned": true,
             "mode": "js",
             "data": null,
